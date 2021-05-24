@@ -1,4 +1,4 @@
-delete from userskills where skill_id = $1 and user_id = $2;
+insert into userskills (user_id, skill_id) values ($1, $2);
 
 select * from users u
 join userskills us on u.id = us.user_id

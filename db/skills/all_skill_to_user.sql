@@ -1,1 +1,0 @@
-insert into userskills (user_id, skill_id) values ($1, $2);

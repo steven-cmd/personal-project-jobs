@@ -25,3 +25,13 @@ massive({
   console.log("database is connnected");
   app.listen(SERVER_PORT, (_) => console.log(`running on ${SERVER_PORT}`));
 });
+
+app.post("/user/register", userCtrl.register);
+app.post("/user/login", userCtrl.login);
+app.get("/user/getuser", userCtrl.getUser);
+app.get("/user/logout", userCtrl.logout);
+
+app.post("/skill/add_skill/:skill");
+app.get("/skill/get_skills", skillCtrl.get_skills);
+app.put("/skill/change_skill:/skill_id");
+app.delete("/skill/delete_skill/:skill_id");
