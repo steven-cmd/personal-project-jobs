@@ -1,0 +1,1 @@
+select * from skills where skill = ($1);
