@@ -7,11 +7,23 @@ module.exports = {
       return res.status(511).send("not logged in");
     }
     db.skills.check_if_skill_exists(skill).then((returnedSkill) => {
-      if (returnedSkill.id) {
+      if (returnedSkill[0]) {
         db.skills
-          .add_skill_to_user(user.id, returnedSkill.id)
-          .then((userSkills) => {
-            return res.status(200).send(userSkills);
+          .check_if_user_has_skill(user.id, returnedSkill[0].id)
+          .then((usersSkill) => {
+            if (!usersSkill[0]) {
+              db.skills
+                .add_skill_to_user(user.id, returnedSkill[0].id)
+                .then((userSkills) => {
+                  return res.status(200).send(userSkills);
+                })
+                .catch((err) => {
+                  console.log(err);
+                  res.status(500).send(err);
+                });
+            } else {
+              return res.status(405).send("Already have that skill");
+            }
           })
           .catch((err) => {
             console.log(err);
@@ -20,9 +32,21 @@ module.exports = {
       } else {
         db.skills.add_skill(skill).then((returnedSkill) => {
           db.skills
-            .add_skill_to_user(user.id, returnedSkill.id)
-            .then((userSkills) => {
-              return res.status(200).send(userSkills);
+            .check_if_user_has_skill(user.id, returnedSkill[0].id)
+            .then((usersSkill) => {
+              if (!usersSkill[0]) {
+                db.skills
+                  .add_skill_to_user(user.id, returnedSkill[0].id)
+                  .then((userSkills) => {
+                    return res.status(200).send(userSkills);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    res.status(500).send(err);
+                  });
+              } else {
+                return res.status(405).send("Already have that skill");
+              }
             })
             .catch((err) => {
               console.log(err);
