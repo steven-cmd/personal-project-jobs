@@ -3,14 +3,14 @@ const bcrypt = require("bcryptjs");
 module.exports = {
   register: async (req, res) => {
     const db = req.app.get("db");
-    const { email, password, location } = req.body;
-    const [isUser] = await db.user.get_user_by_email(email);
+    const { email, password } = req.body;
+    const [isUser] = await db.users.get_user_by_email(email);
     if (isUser) {
       return res.status(409).send("email already exists");
     }
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync(password, salt);
-    const [user] = await db.user.create_user(email, hash, location);
+    const [user] = await db.users.create_user(email, hash);
     delete user.password;
     req.session.user = user;
     return res.status(200).send(req.session.user);
@@ -18,7 +18,7 @@ module.exports = {
   login: async (req, res) => {
     const db = req.app.get("db");
     const { email, password } = req.body;
-    const [user] = await db.user.get_user_by_email(email);
+    const [user] = await db.users.get_user_by_email(email);
     if (!user) {
       return res.status(401).send("no such email");
     }
