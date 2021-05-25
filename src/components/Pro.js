@@ -12,7 +12,6 @@ const Pro = (props) => {
     axios
       .get("/skill/get_skills")
       .then((res) => {
-        console.log(res.data);
         dispatch(setSkills(res.data));
       })
       .catch((err) => {
@@ -21,19 +20,35 @@ const Pro = (props) => {
           props.history.push("/auth");
         }
       });
-  }, [dispatch]);
+  }, [dispatch, props.history]);
 
   const handleAddSkill = () => {
-    axios.post(`/skill/add_skill/${skillInput}`).then().catch();
+    axios
+      .post(`/skill/add_skill/${skillInput}`)
+      .then((res) => {
+        dispatch(setSkills(res.data));
+        setSkillInput("");
+      })
+      .catch((err) => console.log(err));
   };
 
-  const handleDeleteSkill = () => {};
+  const handleDeleteSkill = (skillId) => {
+    axios
+      .delete(`/skill/delete_skill/${skillId}`)
+      .then((res) => dispatch(setSkills(res.data)))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div>
       <p>My Skills</p>
       {skills.map((skill) => {
-        <button>{skill}</button>;
+        return (
+          <div key={skill.skill_id}>
+            <span>{skill.skill} </span>
+            <button onClick={() => handleDeleteSkill(skill.skill_id)}>x</button>
+          </div>
+        );
       })}
       <input
         placeholder="Add New Skill"

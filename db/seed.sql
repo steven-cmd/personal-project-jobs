@@ -1,6 +1,7 @@
+drop table if exists userskills;
 drop table if exists users;
 drop table if exists skills;
-drop table if exists userskills;
+
 
 create table users 
 (id serial primary key,

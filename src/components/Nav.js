@@ -2,7 +2,6 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/userReducer";
 import axios from "axios";
-import { useEffect } from "react";
 
 const Nav = (props) => {
   const dispatch = useDispatch();
