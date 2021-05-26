@@ -11,7 +11,7 @@ location varchar);
 
 create table skills
 (id serial primary key,
-skill varchar not null);
+skill varchar);
 
 create table userskills
 (id serial primary key,

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSkills } from "../redux/skillReducer";
+import Skill from "./Skill";
 
 const Pro = (props) => {
   const { skills } = useSelector((store) => store.skillReducer);
@@ -45,7 +46,7 @@ const Pro = (props) => {
       {skills.map((skill) => {
         return (
           <div key={skill.skill_id}>
-            <span>{skill.skill} </span>
+            <Skill skill={skill} />
             <button onClick={() => handleDeleteSkill(skill.skill_id)}>x</button>
           </div>
         );

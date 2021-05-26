@@ -33,5 +33,5 @@ app.get("/user/logout", userCtrl.logout);
 
 app.post("/skill/add_skill/:skill", skillCtrl.add_skill);
 app.get("/skill/get_skills", skillCtrl.get_skills);
-app.put("/skill/change_skill:/skill_id", skillCtrl.change_skill);
+app.put("/skill/change_skill/:skill_id", skillCtrl.change_skill);
 app.delete("/skill/delete_skill/:skill_id", skillCtrl.delete_skill);
