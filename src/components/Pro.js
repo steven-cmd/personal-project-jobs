@@ -88,10 +88,14 @@ const Pro = (props) => {
     similarityArr.push(cosineSimilarity(skillVector, descVector));
   }
 
-  console.log(similarityArr);
+  const sortedSimilarityEntries = Object.entries({ ...similarityArr }).sort(
+    (a, b) => a[1] - b[1]
+  );
+
   return (
     <div>
-      <p>My Skills</p>
+      <h1>Find your match</h1>
+      <h2>My Skills</h2>
       {skills.map((skill) => {
         return (
           <div key={skill.skill_id}>
@@ -106,6 +110,16 @@ const Pro = (props) => {
         onChange={(e) => setSkillInput(e.target.value)}
       ></input>
       <button onClick={handleAddSkill}>+</button>
+      <h2>Recommened Jobs</h2>
+      <h3>Job 1</h3>
+      {jobs[sortedSimilarityEntries[0][0]].name[0]}
+      {jobs[sortedSimilarityEntries[0][0]].desc[0]}
+      <h3>Job 2</h3>
+      {jobs[sortedSimilarityEntries[1][0]].name[0]}
+      {jobs[sortedSimilarityEntries[1][0]].desc[0]}
+      <h3>Job 3</h3>
+      {jobs[sortedSimilarityEntries[1][0]].name[0]}
+      {jobs[sortedSimilarityEntries[1][0]].desc[0]}
     </div>
   );
 };
