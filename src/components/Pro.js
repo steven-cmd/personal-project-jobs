@@ -45,27 +45,6 @@ const Pro = (props) => {
       .catch((err) => console.log(err));
   };
 
-  const dotProduct = (x, y) => {
-    //X and Y need to be sorted from most important to least important and same len
-    let result = 0;
-    for (let i = 0; i < x.length; i++) {
-      result += x[i] * y[i];
-    }
-    return result;
-  };
-
-  const normalize = (x) => {
-    let result = 0;
-    for (let i = 0; i < x.length; i++) {
-      result += x[i] ** 2;
-    }
-    return Math.sqrt(result);
-  };
-
-  const cosineSimilarity = (x, y) => {
-    return dotProduct(x, y) / (normalize(x) * normalize(y));
-  };
-
   const skillArray = skills.reduce(
     (acc, skill) => [...acc, ...tokenizer.tokenize(skill.skill)],
     []
@@ -77,24 +56,28 @@ const Pro = (props) => {
 
   proTfidf.addDocument(skillArray);
 
-  const skillVector = proTfidf.listTerms(jobs.length).map((item) => item.tfidf);
-
-  let similarityArr = [];
+  let scores = [];
   for (let i = 0; i < jobs.length; i++) {
-    let descVector = [];
-    for (let j = 0; j < skillVector.length; j++) {
-      descVector.push(proTfidf.listTerms(i)[j].tfidf);
+    let itemScore = 0;
+    for (let item of proTfidf.listTerms(i)) {
+      if (skillArray.includes(item.term)) {
+        itemScore += item.tfidf;
+      }
     }
-    similarityArr.push(cosineSimilarity(skillVector, descVector));
+    scores.push(itemScore);
   }
 
-  const sortedSimilarityEntries = Object.entries({ ...similarityArr }).sort(
-    (a, b) => a[1] - b[1]
+  const sortedScores = Object.entries({ ...scores }).sort(
+    (a, b) => b[1] - a[1]
   );
+
+  const top10Jobs = sortedScores.slice(0, 10);
+
+  console.log(jobs[1]);
 
   return (
     <div>
-      <h1>Find your match</h1>
+      <h1>Find Jobs</h1>
       <h2>My Skills</h2>
       {skills.map((skill) => {
         return (
@@ -111,15 +94,13 @@ const Pro = (props) => {
       ></input>
       <button onClick={handleAddSkill}>+</button>
       <h2>Recommened Jobs</h2>
-      <h3>Job 1</h3>
-      {jobs[sortedSimilarityEntries[0][0]].name[0]}
-      {jobs[sortedSimilarityEntries[0][0]].desc[0]}
-      <h3>Job 2</h3>
-      {jobs[sortedSimilarityEntries[1][0]].name[0]}
-      {jobs[sortedSimilarityEntries[1][0]].desc[0]}
-      <h3>Job 3</h3>
-      {jobs[sortedSimilarityEntries[1][0]].name[0]}
-      {jobs[sortedSimilarityEntries[1][0]].desc[0]}
+      {top10Jobs.map((item) => (
+        <div key={jobs[item[0]].id}>
+          <h3>{jobs[item[0]].title}</h3>
+          <p>{jobs[item[0]].desc}</p>
+          <a href={jobs[item[0]].url}>Apply Now</a>
+        </div>
+      ))}
     </div>
   );
 };
