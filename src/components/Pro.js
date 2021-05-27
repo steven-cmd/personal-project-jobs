@@ -3,9 +3,14 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSkills } from "../redux/skillReducer";
 import Skill from "./Skill";
+const natural = require("natural");
+const TfIdf = natural.TfIdf;
+const proTfidf = new TfIdf();
+const tokenizer = new natural.WordTokenizer();
 
 const Pro = (props) => {
   const { skills } = useSelector((store) => store.skillReducer);
+  const { jobs } = useSelector((store) => store.jobReducer);
   const dispatch = useDispatch();
   const [skillInput, setSkillInput] = useState("");
 
@@ -40,6 +45,50 @@ const Pro = (props) => {
       .catch((err) => console.log(err));
   };
 
+  const dotProduct = (x, y) => {
+    //X and Y need to be sorted from most important to least important and same len
+    let result = 0;
+    for (let i = 0; i < x.length; i++) {
+      result += x[i] * y[i];
+    }
+    return result;
+  };
+
+  const normalize = (x) => {
+    let result = 0;
+    for (let i = 0; i < x.length; i++) {
+      result += x[i] ** 2;
+    }
+    return Math.sqrt(result);
+  };
+
+  const cosineSimilarity = (x, y) => {
+    return dotProduct(x, y) / (normalize(x) * normalize(y));
+  };
+
+  const skillArray = skills.reduce(
+    (acc, skill) => [...acc, ...tokenizer.tokenize(skill.skill)],
+    []
+  );
+
+  for (const job of jobs) {
+    proTfidf.addDocument(job.desc[0]);
+  }
+
+  proTfidf.addDocument(skillArray);
+
+  const skillVector = proTfidf.listTerms(jobs.length).map((item) => item.tfidf);
+
+  let similarityArr = [];
+  for (let i = 0; i < jobs.length; i++) {
+    let descVector = [];
+    for (let j = 0; j < skillVector.length; j++) {
+      descVector.push(proTfidf.listTerms(i)[j].tfidf);
+    }
+    similarityArr.push(cosineSimilarity(skillVector, descVector));
+  }
+
+  console.log(similarityArr);
   return (
     <div>
       <p>My Skills</p>

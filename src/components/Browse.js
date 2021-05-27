@@ -6,7 +6,6 @@ const descTfidf = new TfIdf();
 
 const Browse = () => {
   const { jobs } = useSelector((store) => store.jobReducer);
-  console.log("jobs", jobs);
 
   for (const job of jobs) {
     tfidf.addDocument(job.name[0]);
@@ -39,7 +38,7 @@ const Browse = () => {
   const top100ImportantDescriptors = sortedDescTfidfs.slice(-100);
   return (
     <div>
-      <h1>Discover what software skills employers want right now</h1>
+      <h1>Discover what tech skills employers want right now</h1>
       <h2>Common Job Title Terms</h2>
       {top20CommonTitleTerms.map((term, index) => (
         <p key={term[0] + index + term[1]}>{term[0]}</p>
