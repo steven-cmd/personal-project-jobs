@@ -7,9 +7,13 @@ const descTfidf = new TfIdf();
 const Browse = () => {
   const { jobs } = useSelector((store) => store.jobReducer);
 
+  const handleHTML = (htmlString) => {
+    return htmlString.toString().replace(/(<([^>]+)>)/gi, "");
+  };
+
   for (const job of jobs) {
     tfidf.addDocument(job.name[0]);
-    descTfidf.addDocument(job.desc[0]);
+    descTfidf.addDocument(handleHTML(job.desc[0]));
   }
 
   const titleTfidfs = {};

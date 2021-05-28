@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setSkills } from "../redux/skillReducer";
 import Skill from "./Skill";
@@ -59,7 +60,7 @@ const Pro = (props) => {
     );
 
     for (const job of jobs) {
-      proTfidf.addDocument(job.desc[0]);
+      proTfidf.addDocument(handleHTML(job.desc[0]));
     }
 
     proTfidf.addDocument(skillArray);
@@ -84,7 +85,7 @@ const Pro = (props) => {
     setRecommendedJobs(topHalfJobs);
   };
 
-  const stripHTML = (htmlString) => {
+  const handleHTML = (htmlString) => {
     return htmlString.toString().replace(/(<([^>]+)>)/gi, "");
   };
 
@@ -108,11 +109,12 @@ const Pro = (props) => {
       <button onClick={handleAddSkill}>+</button>
       <h2>Recommened Jobs</h2>
       {recommendedJobs.map((item) => (
-        <div key={jobs[item[0]].id}>
-          <h3>{jobs[item[0]].title}</h3>
-          <p>{stripHTML(jobs[item[0]].desc)}</p>
-          <a href={jobs[item[0]].url}>Apply Now</a>
-        </div>
+        <Link to={`/jobdetail/${jobs[item[0]].id}`} key={jobs[item[0]].id}>
+          <div>
+            <h3>{jobs[item[0]].title}</h3>
+            <p>{handleHTML(jobs[item[0]].desc)}</p>
+          </div>
+        </Link>
       ))}
     </div>
   );
