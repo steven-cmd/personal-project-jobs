@@ -13,6 +13,7 @@ const Pro = (props) => {
   const { jobs } = useSelector((store) => store.jobReducer);
   const dispatch = useDispatch();
   const [skillInput, setSkillInput] = useState("");
+  const [recommendedJobs, setRecommendedJobs] = useState([]);
 
   useEffect(() => {
     axios
@@ -28,6 +29,10 @@ const Pro = (props) => {
       });
   }, [dispatch, props.history]);
 
+  useEffect(() => {
+    handleRecommend();
+  }, [skills, jobs]);
+
   const handleAddSkill = () => {
     axios
       .post(`/skill/add_skill/${skillInput}`)
@@ -41,39 +46,47 @@ const Pro = (props) => {
   const handleDeleteSkill = (skillId) => {
     axios
       .delete(`/skill/delete_skill/${skillId}`)
-      .then((res) => dispatch(setSkills(res.data)))
+      .then((res) => {
+        dispatch(setSkills(res.data));
+      })
       .catch((err) => console.log(err));
   };
 
-  const skillArray = skills.reduce(
-    (acc, skill) => [...acc, ...tokenizer.tokenize(skill.skill)],
-    []
-  );
+  const handleRecommend = () => {
+    const skillArray = skills.reduce(
+      (acc, skill) => [...acc, ...tokenizer.tokenize(skill.skill)],
+      []
+    );
 
-  for (const job of jobs) {
-    proTfidf.addDocument(job.desc[0]);
-  }
-
-  proTfidf.addDocument(skillArray);
-
-  let scores = [];
-  for (let i = 0; i < jobs.length; i++) {
-    let itemScore = 0;
-    for (let item of proTfidf.listTerms(i)) {
-      if (skillArray.includes(item.term)) {
-        itemScore += item.tfidf;
-      }
+    for (const job of jobs) {
+      proTfidf.addDocument(job.desc[0]);
     }
-    scores.push(itemScore);
-  }
 
-  const sortedScores = Object.entries({ ...scores }).sort(
-    (a, b) => b[1] - a[1]
-  );
+    proTfidf.addDocument(skillArray);
 
-  const top10Jobs = sortedScores.slice(0, 10);
+    let scores = [];
+    for (let i = 0; i < jobs.length; i++) {
+      let itemScore = 0;
+      for (let item of proTfidf.listTerms(i)) {
+        if (skillArray.includes(item.term)) {
+          itemScore += item.tfidf;
+        }
+      }
+      scores.push(itemScore);
+    }
 
-  console.log(jobs[1]);
+    const sortedScores = Object.entries({ ...scores }).sort(
+      (a, b) => b[1] - a[1]
+    );
+
+    const topHalfJobs = sortedScores.slice(0, sortedScores.length / 2);
+
+    setRecommendedJobs(topHalfJobs);
+  };
+
+  const stripHTML = (htmlString) => {
+    return htmlString.toString().replace(/(<([^>]+)>)/gi, "");
+  };
 
   return (
     <div>
@@ -94,10 +107,10 @@ const Pro = (props) => {
       ></input>
       <button onClick={handleAddSkill}>+</button>
       <h2>Recommened Jobs</h2>
-      {top10Jobs.map((item) => (
+      {recommendedJobs.map((item) => (
         <div key={jobs[item[0]].id}>
           <h3>{jobs[item[0]].title}</h3>
-          <p>{jobs[item[0]].desc}</p>
+          <p>{stripHTML(jobs[item[0]].desc)}</p>
           <a href={jobs[item[0]].url}>Apply Now</a>
         </div>
       ))}
