@@ -80,7 +80,10 @@ const Pro = (props) => {
       (a, b) => b[1] - a[1]
     );
 
-    const topHalfJobs = sortedScores.slice(0, sortedScores.length / 2);
+    const topHalfJobs = sortedScores.slice(
+      0,
+      Math.ceil(sortedScores.length / 2)
+    );
 
     setRecommendedJobs(topHalfJobs);
   };

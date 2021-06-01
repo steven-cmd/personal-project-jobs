@@ -18,6 +18,7 @@ const JobDetail = (props) => {
 
   return (
     <div>
+      <h2>{jobs[jobIndex].title}</h2>
       {jobTfidf.listTerms(jobIndex).map((word) => (
         <div>
           <h3>{word.term} </h3>
