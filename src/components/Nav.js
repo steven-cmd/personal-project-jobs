@@ -9,16 +9,44 @@ const Button = styled.button`
   border-radius: 3px;
   border: 2px solid #6246ea;
   color: #fffffe;
+  :hover {
+    cursor: pointer;
+    filter: brightness(90%);
+  }
 `;
 
 const Img = styled.img`
   height: 40px;
 `;
 
-const Div = styled.div`
+const MainDiv = styled.div`
   display: flex;
   justify-content: space-between;
   background-color: #d1d1e9;
+  align-items: center;
+`;
+
+const ProDiv = styled.div`
+  background-color: #e45858;
+  color: #fffffe;
+  :hover {
+    filter: brightness(90%);
+  }
+  margin: 5px;
+  padding: 3px;
+  border-radius: 3px;
+  border: 2px solid #e45858;
+`;
+
+const MiddleDiv = styled.div`
+  display: flex;
+`;
+
+const LinkDiv = styled.div`
+  a:hover {
+    color: #e45858;
+  }
+  margin: 5px;
 `;
 
 const Nav = (props) => {
@@ -38,7 +66,7 @@ const Nav = (props) => {
   };
 
   return (
-    <Div>
+    <MainDiv>
       <Link to="/">
         <Img
           alt="emoji wrench"
@@ -47,11 +75,17 @@ const Nav = (props) => {
 
         <span>Latest Skill</span>
       </Link>
-      <div>
-        <Link to="/">Browse</Link>
-        <Link to="/about">About</Link>
-        {user ? <Link to="/pro">Pro</Link> : <Link to="/Auth">Pro</Link>}
-      </div>
+      <MiddleDiv>
+        <LinkDiv>
+          <Link to="/">Browse</Link>
+        </LinkDiv>
+        <LinkDiv>
+          <Link to="/about">About</Link>
+        </LinkDiv>
+        <ProDiv>
+          {user ? <Link to="/pro">Pro</Link> : <Link to="/Auth">Pro</Link>}
+        </ProDiv>
+      </MiddleDiv>
 
       {user ? (
         <Button onClick={handleLogout}>Logout</Button>
@@ -60,7 +94,7 @@ const Nav = (props) => {
           <Button>Sign In</Button>
         </Link>
       )}
-    </Div>
+    </MainDiv>
   );
 };
 
