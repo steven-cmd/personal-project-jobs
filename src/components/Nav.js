@@ -1,6 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/userReducer";
+import { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -24,6 +25,7 @@ const MainDiv = styled.div`
   justify-content: space-between;
   background-color: #d1d1e9;
   align-items: center;
+  height: 90px;
 `;
 
 const ProDiv = styled.div`
@@ -40,16 +42,54 @@ const ProDiv = styled.div`
 
 const MiddleDiv = styled.div`
   display: flex;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 
 const LinkDiv = styled.div`
   a:hover {
     color: #e45858;
+    cursor: pointer;
   }
   margin: 5px;
 `;
 
+const LogoDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Burger = styled.button`
+  font-size: 35px;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: inherit;
+  display: none;
+  @media screen and (max-width: 800px) {
+    display: block;
+  }
+`;
+
+const DropDown = styled.ul`
+  position: absolute;
+  left: 0;
+  width: 100%;
+  display: block;
+  list-style-type: none;
+  background-color: #d1d1e9;
+
+  @media (min-width: 800px) {
+    display: none;
+  }
+`;
+
 const Nav = (props) => {
+  const [showMenu, setShowMenu] = useState(false);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -67,14 +107,22 @@ const Nav = (props) => {
 
   return (
     <MainDiv>
-      <Link to="/">
-        <Img
-          alt="emoji wrench"
-          src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/wrench_1f527.png"
-        />
+      <Burger onClick={() => setShowMenu(!showMenu)}>≡</Burger>
 
-        <span>Latest Skill</span>
+      <Link to="/">
+        <LogoDiv>
+          <Img
+            alt="emoji wrench"
+            src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/wrench_1f527.png"
+          />
+
+          <p>
+            Latest <br />
+            Skill
+          </p>
+        </LogoDiv>
       </Link>
+
       <MiddleDiv>
         <LinkDiv>
           <Link to="/">Browse</Link>
@@ -86,6 +134,33 @@ const Nav = (props) => {
           {user ? <Link to="/pro">Pro</Link> : <Link to="/Auth">Pro</Link>}
         </ProDiv>
       </MiddleDiv>
+
+      {showMenu ? (
+        <DropDown>
+          <li>
+            <LinkDiv>
+              <a onClick={() => setShowMenu(!showMenu)}>X Close Menu</a>
+            </LinkDiv>
+          </li>
+          <li>
+            <LinkDiv>
+              <Link to="/">Browse</Link>
+            </LinkDiv>
+          </li>
+          <li>
+            <LinkDiv>
+              <Link to="/about">About</Link>
+            </LinkDiv>
+          </li>
+          <li>
+            <ProDiv>
+              {user ? <Link to="/pro">Pro</Link> : <Link to="/Auth">Pro</Link>}
+            </ProDiv>
+          </li>
+        </DropDown>
+      ) : (
+        <></>
+      )}
 
       {user ? (
         <Button onClick={handleLogout}>Logout</Button>
