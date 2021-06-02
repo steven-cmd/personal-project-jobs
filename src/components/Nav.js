@@ -38,10 +38,13 @@ const ProDiv = styled.div`
   padding: 3px;
   border-radius: 3px;
   border: 2px solid #e45858;
+  text-align: center;
+  width: 30px;
 `;
 
 const MiddleDiv = styled.div`
   display: flex;
+  align-items: center;
   @media screen and (max-width: 800px) {
     display: none;
   }
@@ -57,7 +60,10 @@ const LinkDiv = styled.div`
 
 const LogoDiv = styled.div`
   display: flex;
+  align-items: center;
   flex-direction: row;
+  font-weight: 800;
+  font-size: 20px;
 `;
 
 const Burger = styled.button`

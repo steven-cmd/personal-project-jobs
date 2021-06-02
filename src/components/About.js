@@ -1,10 +1,7 @@
 const About = () => {
   return (
     <div>
-      <h2>
-        Don't know what to study next? We help you find the most in demands
-        skills
-      </h2>
+      <h2>We help you find the most in demands skills</h2>
       <ul>
         <li>
           Check out the browse section to see the most common words used in job
@@ -12,7 +9,6 @@ const About = () => {
           high demand in the market.
         </li>
         <li>
-          {" "}
           Additionally you can see "Specialized" job terms. These are terms that
           could indicate a high level of specificity or importance for certain
           job postings.
