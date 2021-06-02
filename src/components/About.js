@@ -14,7 +14,7 @@ const About = () => {
           job postings.
         </li>
       </ul>
-      <h2>We match you to the perfect job for your skillset</h2>
+      <h2>We match you to the perfect job for your skill set</h2>
       <ul>
         <li>
           Log into the Pro section. It's free and without hastle to register.
@@ -37,8 +37,8 @@ const About = () => {
       </ul>
       <br />
       <i>
-        Disclaimer: Only UK tech jobs available for now. There could be jobs
-        worldwide across all industries in the future.
+        Disclaimer: Only UK tech jobs available for now. We might have jobs
+        worldwide, and for all industries, in the future.
       </i>
     </div>
   );
