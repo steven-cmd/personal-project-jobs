@@ -15,10 +15,15 @@ const JobDetail = (props) => {
   for (const job of jobs) {
     jobTfidf.addDocument(handleHTML(job.desc[0]));
   }
-
+  console.log(jobs[jobIndex]);
   return (
     <div>
       <h2>{jobs[jobIndex].title}</h2>
+      <p>{jobs[jobIndex].company}</p>
+      <p>
+        {jobs[jobIndex].location}, {jobs[jobIndex].country}
+      </p>
+      <a href={jobs[jobIndex].url}>Apply</a>
       {jobTfidf.listTerms(jobIndex).map((word) => (
         <div>
           <h3>{word.term} </h3>

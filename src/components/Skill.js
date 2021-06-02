@@ -2,6 +2,27 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSkills } from "../redux/skillReducer";
+import styled from "styled-components";
+
+const TagButton = styled.button`
+  background: #6246ea;
+  border: 2px solid #6246ea;
+  color: #fffffe;
+  :hover {
+    cursor: pointer;
+    filter: brightness(90%);
+  }
+`;
+
+const ConfirmButton = styled.button`
+  background: #fffffe;
+  border: 2px solid #fffffe;
+  color: #2b2c34;
+  :hover {
+    cursor: pointer;
+    filter: brightness(90%);
+  }
+`;
 
 const Skill = (props) => {
   const [isInput, setIsInput] = useState(false);
@@ -20,7 +41,10 @@ const Skill = (props) => {
         dispatch(setSkills(res.data));
         handleToggle();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        handleToggle();
+      });
   };
 
   return (
@@ -31,10 +55,10 @@ const Skill = (props) => {
             value={skillInput}
             onChange={(e) => setSkillInput(e.target.value)}
           ></input>
-          <button onClick={handleEditSubmit}>✓</button>
+          <ConfirmButton onClick={handleEditSubmit}>✓</ConfirmButton>
         </>
       ) : (
-        <button onClick={handleToggle}>{props.skill.skill}</button>
+        <TagButton onClick={handleToggle}>{props.skill.skill}</TagButton>
       )}
     </div>
   );

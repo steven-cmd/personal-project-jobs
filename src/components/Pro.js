@@ -4,10 +4,54 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setSkills } from "../redux/skillReducer";
 import Skill from "./Skill";
+import styled from "styled-components";
 const natural = require("natural");
 const TfIdf = natural.TfIdf;
 const proTfidf = new TfIdf();
 const tokenizer = new natural.WordTokenizer();
+
+const SkillCard = styled.div`
+  background-color: #d1d1e9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const CardTagDiv = styled.div`
+  display: flex;
+`;
+
+const JobCardDiv = styled.div`
+  background-color: #d1d1e9;
+  display: flex;
+  flex-direction: column;
+`;
+
+const DeleteButton = styled.button`
+  background: #e45858;
+  border: 2px solid #e45858;
+  color: #fffffe;
+  :hover {
+    cursor: pointer;
+    filter: brightness(90%);
+  }
+`;
+
+const MainDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ConfirmButton = styled.button`
+  background: #fffffe;
+  border: 2px solid #fffffe;
+  color: #2b2c34;
+  :hover {
+    cursor: pointer;
+    filter: brightness(90%);
+  }
+`;
 
 const Pro = (props) => {
   const { skills } = useSelector((store) => store.skillReducer);
@@ -93,33 +137,44 @@ const Pro = (props) => {
   };
 
   return (
-    <div>
+    <MainDiv>
       <h1>Find Jobs</h1>
-      <h2>My Skills</h2>
-      {skills.map((skill) => {
-        return (
-          <div key={skill.skill_id}>
-            <Skill skill={skill} />
-            <button onClick={() => handleDeleteSkill(skill.skill_id)}>x</button>
-          </div>
-        );
-      })}
-      <input
-        placeholder="Add New Skill"
-        value={skillInput}
-        onChange={(e) => setSkillInput(e.target.value)}
-      ></input>
-      <button onClick={handleAddSkill}>+</button>
+      <SkillCard>
+        <h2>My Skills</h2>
+        {skills.map((skill) => {
+          return (
+            <div key={skill.skill_id}>
+              <CardTagDiv>
+                <Skill skill={skill} />
+                <DeleteButton onClick={() => handleDeleteSkill(skill.skill_id)}>
+                  x
+                </DeleteButton>
+              </CardTagDiv>
+            </div>
+          );
+        })}
+        <div>
+          <input
+            placeholder="Add New Skill"
+            value={skillInput}
+            onChange={(e) => setSkillInput(e.target.value)}
+          ></input>
+          <ConfirmButton onClick={handleAddSkill}>+</ConfirmButton>
+        </div>
+      </SkillCard>
+
       <h2>Recommened Jobs</h2>
-      {recommendedJobs.map((item) => (
-        <Link to={`/jobdetail/${jobs[item[0]].id}`} key={jobs[item[0]].id}>
-          <div>
-            <h3>{jobs[item[0]].title}</h3>
-            <p>{handleHTML(jobs[item[0]].desc)}</p>
-          </div>
-        </Link>
-      ))}
-    </div>
+      <JobCardDiv>
+        {recommendedJobs.map((item) => (
+          <Link to={`/jobdetail/${jobs[item[0]].id}`} key={jobs[item[0]].id}>
+            <div>
+              <h3>{jobs[item[0]].title}</h3>
+              <p>{handleHTML(jobs[item[0]].desc)}</p>
+            </div>
+          </Link>
+        ))}
+      </JobCardDiv>
+    </MainDiv>
   );
 };
 
