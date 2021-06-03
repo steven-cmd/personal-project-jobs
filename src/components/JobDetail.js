@@ -55,6 +55,9 @@ const MainDiv = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  @media screen and (min-width: 800px) {
+    padding: 0px 40px 0px 40px;
+  }
 `;
 
 const JobDetail = (props) => {

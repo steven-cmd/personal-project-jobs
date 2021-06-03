@@ -15,6 +15,10 @@ const Button = styled.button`
     filter: brightness(90%);
   }
   font-weight: bold;
+  @media screen and (max-width: 800px) {
+    width: 70px;
+  }
+  width: 101px;
 `;
 
 const Img = styled.img`
@@ -79,6 +83,7 @@ const Burger = styled.button`
   cursor: pointer;
   outline: inherit;
   display: none;
+  width: 70px;
   @media screen and (max-width: 800px) {
     display: block;
   }
