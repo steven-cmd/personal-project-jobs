@@ -1,6 +1,12 @@
+import styled from "styled-components";
+
+const MainDiv = styled.div`
+  padding: 0 40px 0 40px;
+`;
+
 const About = () => {
   return (
-    <div>
+    <MainDiv>
       <h2>We help you find the most in demands skills</h2>
       <ul>
         <li>
@@ -17,7 +23,7 @@ const About = () => {
       <h2>We match you to the perfect job for your skill set</h2>
       <ul>
         <li>
-          Log into the Pro section. It's free and without hastle to register.
+          Log into the Pro section. It's free and without hassle to register.
         </li>
         <li>
           Enter your skills and in real time we will match you to real jobs
@@ -40,7 +46,7 @@ const About = () => {
         Disclaimer: Only UK tech jobs available for now. We might have jobs
         worldwide, and for all industries, in the future.
       </i>
-    </div>
+    </MainDiv>
   );
 };
 

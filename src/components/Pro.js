@@ -15,14 +15,16 @@ const SkillCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0px 50px 10px 50px;
+  border-radius: 3px;
 `;
 
 const CardTagDiv = styled.div`
   display: flex;
+  margin-bottom: 5px;
 `;
 
 const JobCardDiv = styled.div`
-  background-color: #d1d1e9;
   display: flex;
   flex-direction: column;
 `;
@@ -35,6 +37,7 @@ const DeleteButton = styled.button`
     cursor: pointer;
     filter: brightness(90%);
   }
+  border-radius: 0px 3px 3px 0px;
 `;
 
 const MainDiv = styled.div`
@@ -51,6 +54,18 @@ const ConfirmButton = styled.button`
     cursor: pointer;
     filter: brightness(90%);
   }
+  border-radius: 0px 3px 3px 0px;
+`;
+
+const Input = styled.input`
+  margin-top: 10px;
+`;
+
+const Job = styled.div`
+  border-radius: 3px;
+  margin: 0px 60px 60px 60px;
+  background-color: #d1d1e9;
+  padding: 20px;
 `;
 
 const Pro = (props) => {
@@ -154,24 +169,26 @@ const Pro = (props) => {
           );
         })}
         <div>
-          <input
+          <Input
             placeholder="Add New Skill"
             value={skillInput}
             onChange={(e) => setSkillInput(e.target.value)}
-          ></input>
+          ></Input>
           <ConfirmButton onClick={handleAddSkill}>+</ConfirmButton>
         </div>
       </SkillCard>
 
-      <h2>Recommened Jobs</h2>
+      <h2>Recommended Jobs</h2>
       <JobCardDiv>
         {recommendedJobs.map((item) => (
-          <Link to={`/jobdetail/${jobs[item[0]].id}`} key={jobs[item[0]].id}>
-            <div>
-              <h3>{jobs[item[0]].title}</h3>
-              <p>{handleHTML(jobs[item[0]].desc)}</p>
-            </div>
-          </Link>
+          <Job>
+            <Link to={`/jobdetail/${jobs[item[0]].id}`} key={jobs[item[0]].id}>
+              <div>
+                <h3>{jobs[item[0]].title}</h3>
+                <p>{handleHTML(jobs[item[0]].desc)}</p>
+              </div>
+            </Link>
+          </Job>
         ))}
       </JobCardDiv>
     </MainDiv>

@@ -12,6 +12,8 @@ const TagButton = styled.button`
     cursor: pointer;
     filter: brightness(90%);
   }
+  font-weight: bold;
+  border-radius: 3px 0px 0px 3px;
 `;
 
 const ConfirmButton = styled.button`

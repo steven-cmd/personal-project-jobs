@@ -14,6 +14,7 @@ const Button = styled.button`
     cursor: pointer;
     filter: brightness(90%);
   }
+  font-weight: bold;
 `;
 
 const Img = styled.img`
@@ -26,6 +27,8 @@ const MainDiv = styled.div`
   background-color: #d1d1e9;
   align-items: center;
   height: 90px;
+  font-weight: bold;
+  padding: 20px;
 `;
 
 const ProDiv = styled.div`
@@ -45,9 +48,11 @@ const ProDiv = styled.div`
 const MiddleDiv = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-around;
   @media screen and (max-width: 800px) {
     display: none;
   }
+  width: 300px;
 `;
 
 const LinkDiv = styled.div`
@@ -55,7 +60,6 @@ const LinkDiv = styled.div`
     color: #e45858;
     cursor: pointer;
   }
-  margin: 5px;
 `;
 
 const LogoDiv = styled.div`

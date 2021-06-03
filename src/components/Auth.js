@@ -13,6 +13,9 @@ const Button = styled.button`
     cursor: pointer;
     filter: brightness(90%);
   }
+  width: 100px;
+  font-weight: bold;
+  margin: 10px 10px 0px 10px;
 `;
 
 const Input = styled.input`
@@ -23,6 +26,10 @@ const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const InputDiv = styled.div`
+  margin-top: 10px;
 `;
 
 const LoginDiv = styled.div`
@@ -72,7 +79,7 @@ const Auth = (props) => {
     <MainDiv>
       <h1>Access Pro Area</h1>
       <LoginDiv>
-        <div>
+        <InputDiv>
           <Label for={"email"}>Email Addresss</Label>
           <Input
             id={"email"}
@@ -80,8 +87,8 @@ const Auth = (props) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-        </div>
-        <div>
+        </InputDiv>
+        <InputDiv>
           <Label for={"pw"}>Password</Label>
           <Input
             id={"pw"}
@@ -90,7 +97,7 @@ const Auth = (props) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </div>
+        </InputDiv>
         <ButtonWrapperDiv>
           <Button onClick={handleLogin}>Login</Button>
           <Button onClick={handleRegister}>Register</Button>

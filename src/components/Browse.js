@@ -11,6 +11,7 @@ const MainDiv = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding: 0 40px 0 40px;
 `;
 
 const TermDiv = styled.div`
@@ -19,6 +20,7 @@ const TermDiv = styled.div`
   border-left: 3px solid #e45858;
   padding 3px;
   color: #2b2c34;
+  border-radius: 3px
 `;
 
 const TermWrapper = styled.div`

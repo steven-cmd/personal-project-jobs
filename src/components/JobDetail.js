@@ -2,13 +2,14 @@ import { useSelector } from "react-redux";
 import ReactWordcloud from "react-wordcloud";
 import { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
+import styled from "styled-components";
 const natural = require("natural");
 const TfIdf = natural.TfIdf;
 const jobTfidf = new TfIdf();
-const size = [375, 375];
+const size = [411, 411];
 const options = {
   fontFamily: "sans-serif",
-  fontSizes: [20, 100],
+  fontSizes: [10, 80],
 };
 
 const tfidfBarOptions = {
@@ -21,14 +22,40 @@ const tfidfBarOptions = {
   responsive: true,
   plugins: {
     legend: {
-      position: "right",
+      position: "bottom",
     },
     title: {
       display: true,
-      text: "Top Terms (Specificity / TF-IDF)",
+      text: "Top Terms (Specificity)",
     },
   },
 };
+
+const Apply = styled.div`
+  background-color: #e45858;
+  color: #fffffe;
+  :hover {
+    filter: brightness(90%);
+  }
+  margin: 5px;
+  border-radius: 3px;
+  border: 2px solid #e45858;
+  width: 100px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
+const MainDiv = styled.div`
+  background-color: #fffffe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
 
 const JobDetail = (props) => {
   const { jobs } = useSelector((store) => store.jobReducer);
@@ -84,24 +111,28 @@ const JobDetail = (props) => {
       {
         label: "TF-IDF",
         data: barData,
+        backgroundColor: ["rgba(98, 70, 234, 1)"],
+        borderColor: ["rgba(98, 70, 234, 1)"],
         borderWidth: 1,
       },
     ],
   };
 
   return (
-    <div>
-      <div>
-        <h2>{jobs[jobIndex]?.title}</h2>
-        <p>{jobs[jobIndex]?.company}</p>
-        <p>
-          {jobs[jobIndex]?.location}, {jobs[jobIndex]?.country}
-        </p>
+    <MainDiv>
+      <h2>{jobs[jobIndex]?.title}</h2>
+      <p>{jobs[jobIndex]?.company}</p>
+      <p>
+        {jobs[jobIndex]?.location}, {jobs[jobIndex]?.country}
+      </p>
+      <Apply>
         <a href={jobs[jobIndex]?.url}>Apply</a>
+      </Apply>
+      <div>
         <ReactWordcloud words={words} options={options} size={size} />
-        <Bar data={tfidfBarData} options={tfidfBarOptions} />
       </div>
-    </div>
+      <Bar data={tfidfBarData} options={tfidfBarOptions} />
+    </MainDiv>
   );
 };
 
