@@ -129,7 +129,9 @@ const JobDetail = (props) => {
         {jobs[jobIndex]?.location}, {jobs[jobIndex]?.country}
       </p>
       <Apply>
-        <a href={jobs[jobIndex]?.url}>Apply</a>
+        <a target={"_blank"} href={jobs[jobIndex]?.url}>
+          Apply
+        </a>
       </Apply>
       <div>
         <ReactWordcloud words={words} options={options} size={size} />
