@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setSkills } from "../redux/skillReducer";
 import Skill from "./Skill";
@@ -58,7 +58,13 @@ const ConfirmButton = styled.button`
 `;
 
 const Input = styled.input`
-  margin-top: 10px;
+  border: none;
+  font-size: 16.5px;
+  padding-left: 10px;
+  border-radius: 3px 0px 0px 3px;
+  :focus {
+    outline: none;
+  }
 `;
 
 const Job = styled.div`
@@ -68,13 +74,19 @@ const Job = styled.div`
   padding: 20px;
 `;
 
+const AddSkillDiv = styled.div`
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+`;
+
 const Pro = (props) => {
   const { skills } = useSelector((store) => store.skillReducer);
   const { jobs } = useSelector((store) => store.jobReducer);
   const dispatch = useDispatch();
   const [skillInput, setSkillInput] = useState("");
   const [recommendedJobs, setRecommendedJobs] = useState([]);
-
+  const history = useHistory();
   useEffect(() => {
     axios
       .get("/skill/get_skills")
@@ -100,7 +112,10 @@ const Pro = (props) => {
         dispatch(setSkills(res.data));
         setSkillInput("");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        alert("Skill already exists.");
+      });
   };
 
   const handleDeleteSkill = (skillId) => {
@@ -109,7 +124,10 @@ const Pro = (props) => {
       .then((res) => {
         dispatch(setSkills(res.data));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        history.push("/Auth");
+      });
   };
 
   const handleRecommend = () => {
@@ -168,14 +186,14 @@ const Pro = (props) => {
             </div>
           );
         })}
-        <div>
+        <AddSkillDiv>
           <Input
             placeholder="Add New Skill"
             value={skillInput}
             onChange={(e) => setSkillInput(e.target.value)}
           ></Input>
           <ConfirmButton onClick={handleAddSkill}>+</ConfirmButton>
-        </div>
+        </AddSkillDiv>
       </SkillCard>
 
       <h2>Recommended Jobs</h2>

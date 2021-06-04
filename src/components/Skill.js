@@ -26,6 +26,17 @@ const ConfirmButton = styled.button`
   }
 `;
 
+const Input = styled.input`
+  border: none;
+  font-size: 16.7px;
+  padding-left: 10px;
+  border-radius: 3px 0px 0px 3px;
+  :focus {
+    outline: none;
+  }
+  width: 140px;
+`;
+
 const Skill = (props) => {
   const [isInput, setIsInput] = useState(false);
   const [skillInput, setSkillInput] = useState(props.skill.skill);
@@ -53,10 +64,10 @@ const Skill = (props) => {
     <div>
       {isInput ? (
         <>
-          <input
+          <Input
             value={skillInput}
             onChange={(e) => setSkillInput(e.target.value)}
-          ></input>
+          ></Input>
           <ConfirmButton onClick={handleEditSubmit}>✓</ConfirmButton>
         </>
       ) : (

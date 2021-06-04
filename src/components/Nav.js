@@ -6,13 +6,14 @@ import axios from "axios";
 import styled from "styled-components";
 
 const Button = styled.button`
-  background: #6246ea;
+  background: transparent;
   border-radius: 3px;
   border: 2px solid #6246ea;
-  color: #fffffe;
+  color: #6246ea;
   :hover {
     cursor: pointer;
-    filter: brightness(90%);
+    background: #6246ea;
+    color: #fffffe;
   }
   font-weight: bold;
   @media screen and (max-width: 800px) {
@@ -102,6 +103,10 @@ const DropDown = styled.ul`
   }
 `;
 
+const Tools = styled.p`
+  font-size: 30px;
+`;
+
 const Nav = (props) => {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -126,11 +131,7 @@ const Nav = (props) => {
 
       <Link to="/">
         <LogoDiv>
-          <Img
-            alt="emoji wrench"
-            src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/wrench_1f527.png"
-          />
-
+          <Tools>🛠</Tools>
           <p>
             Latest <br />
             Skill

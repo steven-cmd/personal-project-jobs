@@ -5,21 +5,30 @@ import { updateUser } from "../redux/userReducer";
 import styled from "styled-components";
 
 const Button = styled.button`
-  background: #6246ea;
+  background: transparent;
   border-radius: 3px;
   border: 2px solid #6246ea;
-  color: #fffffe;
+  color: #6246ea;
   :hover {
     cursor: pointer;
-    filter: brightness(90%);
+    background: #6246ea;
+    color: #fffffe;
   }
   width: 100px;
+  height: 29px;
   font-weight: bold;
   margin: 10px 10px 0px 10px;
 `;
 
 const Input = styled.input`
   width: 90%;
+  font-family: inherit;
+  font-size: 20px;
+  border-radius: 3px;
+
+  :focus {
+    outline-color: #e45858;
+  }
 `;
 
 const MainDiv = styled.div`
@@ -30,6 +39,9 @@ const MainDiv = styled.div`
 
 const InputDiv = styled.div`
   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const LoginDiv = styled.div`
@@ -47,6 +59,7 @@ const Label = styled.label`
 
 const ButtonWrapperDiv = styled.div`
   display: flex;
+  align-items: flex-end;
 `;
 
 const Auth = (props) => {
@@ -62,7 +75,10 @@ const Auth = (props) => {
         dispatch(updateUser(res.data));
         props.history.push("/pro");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        alert("Incorrect email or password.");
+      });
   };
 
   const handleRegister = () => {
@@ -72,7 +88,10 @@ const Auth = (props) => {
         dispatch(updateUser(res.data));
         props.history.push("/pro");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        alert("Username/email already exists.");
+      });
   };
 
   return (
@@ -80,7 +99,7 @@ const Auth = (props) => {
       <h1>Access Pro Area</h1>
       <LoginDiv>
         <InputDiv>
-          <Label for={"email"}>Email Addresss</Label>
+          <Label htmlFor={"email"}>Email Addresss</Label>
           <Input
             id={"email"}
             placeholder={"Your Email"}
@@ -89,7 +108,7 @@ const Auth = (props) => {
           />
         </InputDiv>
         <InputDiv>
-          <Label for={"pw"}>Password</Label>
+          <Label htmlFor={"pw"}>Password</Label>
           <Input
             id={"pw"}
             placeholder={"Enter Password"}
