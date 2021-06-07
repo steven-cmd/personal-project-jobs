@@ -82,16 +82,26 @@ const Auth = (props) => {
   };
 
   const handleRegister = () => {
-    axios
-      .post("/user/register", { email, password })
-      .then((res) => {
-        dispatch(updateUser(res.data));
-        props.history.push("/pro");
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Username/email already exists.");
-      });
+    if (email.length < 1 || email.length > 128) {
+      alert(
+        "Username / Email must be at least 1 character and less than 128 characters."
+      );
+    } else if (password.length < 6 || password.length > 128) {
+      alert(
+        "Password must be at least 6 characters and less than 128 characters."
+      );
+    } else {
+      axios
+        .post("/user/register", { email, password })
+        .then((res) => {
+          dispatch(updateUser(res.data));
+          props.history.push("/pro");
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Username/email already exists.");
+        });
+    }
   };
 
   return (
