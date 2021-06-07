@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setSkills } from "../redux/skillReducer";
@@ -101,36 +101,7 @@ const Pro = (props) => {
       });
   }, [dispatch, props.history]);
 
-  useEffect(() => {
-    handleRecommend();
-  }, [skills, jobs]);
-
-  const handleAddSkill = () => {
-    axios
-      .post(`/skill/add_skill/${skillInput}`)
-      .then((res) => {
-        dispatch(setSkills(res.data));
-        setSkillInput("");
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Skill already exists.");
-      });
-  };
-
-  const handleDeleteSkill = (skillId) => {
-    axios
-      .delete(`/skill/delete_skill/${skillId}`)
-      .then((res) => {
-        dispatch(setSkills(res.data));
-      })
-      .catch((err) => {
-        console.log(err);
-        history.push("/Auth");
-      });
-  };
-
-  const handleRecommend = () => {
+  const handleRecommend = useCallback(() => {
     const skillArray = skills.reduce(
       (acc, skill) => [...acc, ...tokenizer.tokenize(skill.skill)],
       []
@@ -163,10 +134,45 @@ const Pro = (props) => {
     );
 
     setRecommendedJobs(topHalfJobs);
+  }, [skills, jobs]);
+
+  useEffect(() => {
+    handleRecommend();
+  }, [handleRecommend]);
+
+  const handleAddSkill = () => {
+    axios
+      .post(`/skill/add_skill/${skillInput}`)
+      .then((res) => {
+        dispatch(setSkills(res.data));
+        setSkillInput("");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Skill already exists.");
+      });
+  };
+
+  const handleDeleteSkill = (skillId) => {
+    axios
+      .delete(`/skill/delete_skill/${skillId}`)
+      .then((res) => {
+        dispatch(setSkills(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+        history.push("/Auth");
+      });
   };
 
   const handleHTML = (htmlString) => {
     return htmlString.toString().replace(/(<([^>]+)>)/gi, "");
+  };
+
+  const handleEnterDown = (event) => {
+    if (event.key === "Enter") {
+      handleAddSkill();
+    }
   };
 
   return (
@@ -191,6 +197,7 @@ const Pro = (props) => {
             placeholder="Add New Skill"
             value={skillInput}
             onChange={(e) => setSkillInput(e.target.value)}
+            onKeyDown={(e) => handleEnterDown(e)}
           ></Input>
           <ConfirmButton onClick={handleAddSkill}>+</ConfirmButton>
         </AddSkillDiv>
@@ -199,8 +206,8 @@ const Pro = (props) => {
       <h2>Recommended Jobs</h2>
       <JobCardDiv>
         {recommendedJobs.map((item) => (
-          <Job>
-            <Link to={`/jobdetail/${jobs[item[0]].id}`} key={jobs[item[0]].id}>
+          <Job key={jobs[item[0]].id}>
+            <Link to={`/jobdetail/${jobs[item[0]].id}`}>
               <div>
                 <h3>{jobs[item[0]].title}</h3>
                 <p>{handleHTML(jobs[item[0]].desc)}</p>

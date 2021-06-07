@@ -8,11 +8,12 @@ import styled from "styled-components";
 const Button = styled.button`
   background: transparent;
   border-radius: 3px;
-  border: 2px solid #6246ea;
-  color: #6246ea;
+  border: 2px solid #2b2c34;
+  color: #2b2c34;
   :hover {
     cursor: pointer;
-    background: #6246ea;
+    background: #e45858;
+    border: 2px solid #e45858;
     color: #fffffe;
   }
   font-weight: bold;
@@ -20,10 +21,6 @@ const Button = styled.button`
     width: 70px;
   }
   width: 101px;
-`;
-
-const Img = styled.img`
-  height: 40px;
 `;
 
 const MainDiv = styled.div`
@@ -42,7 +39,7 @@ const ProDiv = styled.div`
   :hover {
     filter: brightness(90%);
   }
-  margin: 5px;
+  margin-top: 3px;
   padding: 3px;
   border-radius: 3px;
   border: 2px solid #e45858;
@@ -103,6 +100,19 @@ const DropDown = styled.ul`
   }
 `;
 
+const CloseButton = styled.button`
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0px;
+
+  :hover {
+    color: #e45858;
+    cursor: pointer;
+  }
+`;
+
 const Tools = styled.p`
   font-size: 30px;
 `;
@@ -146,16 +156,25 @@ const Nav = (props) => {
         <LinkDiv>
           <Link to="/about">About</Link>
         </LinkDiv>
-        <ProDiv>
-          {user ? <Link to="/pro">Pro</Link> : <Link to="/Auth">Pro</Link>}
-        </ProDiv>
+
+        {user ? (
+          <Link to="/pro">
+            <ProDiv>Pro</ProDiv>
+          </Link>
+        ) : (
+          <Link to="/Auth">
+            <ProDiv>Pro</ProDiv>
+          </Link>
+        )}
       </MiddleDiv>
 
       {showMenu ? (
         <DropDown>
           <li>
             <LinkDiv>
-              <a onClick={() => setShowMenu(!showMenu)}>X Close Menu</a>
+              <CloseButton onClick={() => setShowMenu(!showMenu)}>
+                X Close Menu
+              </CloseButton>
             </LinkDiv>
           </li>
           <li>
@@ -169,9 +188,15 @@ const Nav = (props) => {
             </LinkDiv>
           </li>
           <li>
-            <ProDiv>
-              {user ? <Link to="/pro">Pro</Link> : <Link to="/Auth">Pro</Link>}
-            </ProDiv>
+            {user ? (
+              <Link to="/pro">
+                <ProDiv>Pro</ProDiv>
+              </Link>
+            ) : (
+              <Link to="/Auth">
+                <ProDiv>Pro</ProDiv>
+              </Link>
+            )}
           </li>
         </DropDown>
       ) : (

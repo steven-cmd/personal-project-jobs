@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 const natural = require("natural");
 const TfIdf = natural.TfIdf;
 const tfidf = new TfIdf();
@@ -31,21 +31,7 @@ const TermWrapper = styled.div`
 const Browse = () => {
   const { jobs } = useSelector((store) => store.jobReducer);
 
-  useEffect(() => {
-    handleTopTerms();
-  }, [jobs]);
-
-  const [top20CommonTitleTerms, setTop20CommonTitleTerms] = useState([]);
-  const [top100CommonDescriptors, setTop100CommonDescriptors] = useState([]);
-  const [top100ImportantDescriptors, setTop100ImportantDescriptors] = useState(
-    []
-  );
-
-  const handleHTML = (htmlString) => {
-    return htmlString.toString().replace(/(<([^>]+)>)/gi, "");
-  };
-
-  const handleTopTerms = () => {
+  const handleTopTerms = useCallback(() => {
     for (const job of jobs) {
       tfidf.addDocument(job.name[0]);
       descTfidf.addDocument(handleHTML(job.desc[0]));
@@ -74,6 +60,20 @@ const Browse = () => {
     setTop20CommonTitleTerms(sortedTitleTfidfs.slice(0, 20));
     setTop100CommonDescriptors(sortedDescTfidfs.slice(0, 100));
     setTop100ImportantDescriptors(sortedDescTfidfs.slice(-100));
+  }, [jobs]);
+
+  useEffect(() => {
+    handleTopTerms();
+  }, [handleTopTerms]);
+
+  const [top20CommonTitleTerms, setTop20CommonTitleTerms] = useState([]);
+  const [top100CommonDescriptors, setTop100CommonDescriptors] = useState([]);
+  const [top100ImportantDescriptors, setTop100ImportantDescriptors] = useState(
+    []
+  );
+
+  const handleHTML = (htmlString) => {
+    return htmlString.toString().replace(/(<([^>]+)>)/gi, "");
   };
 
   return (
