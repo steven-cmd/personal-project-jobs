@@ -48,16 +48,20 @@ const Skill = (props) => {
   };
 
   const handleEditSubmit = () => {
-    axios
-      .put(`/skill/change_skill/${props.skill.skill_id}`, { skillInput })
-      .then((res) => {
-        dispatch(setSkills(res.data));
-        handleToggle();
-      })
-      .catch((err) => {
-        console.log(err);
-        handleToggle();
-      });
+    if (skillInput.length > 64) {
+      alert("Please enter a skill less than 64 charactres in length.");
+    } else {
+      axios
+        .put(`/skill/change_skill/${props.skill.skill_id}`, { skillInput })
+        .then((res) => {
+          dispatch(setSkills(res.data));
+          handleToggle();
+        })
+        .catch((err) => {
+          console.log(err);
+          handleToggle();
+        });
+    }
   };
 
   return (

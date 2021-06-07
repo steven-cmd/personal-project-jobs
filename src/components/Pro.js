@@ -141,16 +141,20 @@ const Pro = (props) => {
   }, [handleRecommend]);
 
   const handleAddSkill = () => {
-    axios
-      .post(`/skill/add_skill/${skillInput}`)
-      .then((res) => {
-        dispatch(setSkills(res.data));
-        setSkillInput("");
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Skill already exists.");
-      });
+    if (skillInput.length > 64) {
+      alert("Please enter a skill less than 64 charactres in length.");
+    } else {
+      axios
+        .post(`/skill/add_skill/${skillInput}`)
+        .then((res) => {
+          dispatch(setSkills(res.data));
+          setSkillInput("");
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Skill already exists.");
+        });
+    }
   };
 
   const handleDeleteSkill = (skillId) => {
