@@ -1,4 +1,4 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/userReducer";
 import { useState } from "react";
@@ -33,20 +33,6 @@ const MainDiv = styled.div`
   padding: 20px;
 `;
 
-const ProDiv = styled.div`
-  background-color: #e45858;
-  color: #fffffe;
-  :hover {
-    filter: brightness(90%);
-  }
-  margin-top: 3px;
-  padding: 3px;
-  border-radius: 3px;
-  border: 2px solid #e45858;
-  text-align: center;
-  width: 30px;
-`;
-
 const MiddleDiv = styled.div`
   display: flex;
   align-items: center;
@@ -58,6 +44,7 @@ const MiddleDiv = styled.div`
 `;
 
 const LinkDiv = styled.div`
+  margin-bottom: 8px;
   a:hover {
     color: #e45858;
     cursor: pointer;
@@ -151,21 +138,71 @@ const Nav = (props) => {
 
       <MiddleDiv>
         <LinkDiv>
-          <Link to="/">Browse</Link>
+          <NavLink
+            exact
+            to="/"
+            activeStyle={{
+              backgroundColor: "#e45858",
+              color: "#fffffe",
+              padding: "3px",
+              borderRadius: "3px",
+              border: "2px solid #e45858",
+              textAlign: "center",
+            }}
+          >
+            Browse
+          </NavLink>
         </LinkDiv>
         <LinkDiv>
-          <Link to="/about">About</Link>
+          <NavLink
+            exact
+            to="/about"
+            activeStyle={{
+              backgroundColor: "#e45858",
+              color: "#fffffe",
+              padding: "3px",
+              borderRadius: "3px",
+              border: "2px solid #e45858",
+              textAlign: "center",
+            }}
+          >
+            About
+          </NavLink>
         </LinkDiv>
 
-        {user ? (
-          <Link to="/pro">
-            <ProDiv>Pro</ProDiv>
-          </Link>
-        ) : (
-          <Link to="/Auth">
-            <ProDiv>Pro</ProDiv>
-          </Link>
-        )}
+        <LinkDiv>
+          {user ? (
+            <NavLink
+              exact
+              to="/pro"
+              activeStyle={{
+                backgroundColor: "#e45858",
+                color: "#fffffe",
+                padding: "3px",
+                borderRadius: "3px",
+                border: "2px solid #e45858",
+                textAlign: "center",
+              }}
+            >
+              Pro
+            </NavLink>
+          ) : (
+            <NavLink
+              exact
+              to="/Auth"
+              activeStyle={{
+                backgroundColor: "#e45858",
+                color: "#fffffe",
+                padding: "3px",
+                borderRadius: "3px",
+                border: "2px solid #e45858",
+                textAlign: "center",
+              }}
+            >
+              Pro
+            </NavLink>
+          )}
+        </LinkDiv>
       </MiddleDiv>
 
       {showMenu ? (
@@ -179,24 +216,74 @@ const Nav = (props) => {
           </li>
           <li>
             <LinkDiv>
-              <Link to="/">Browse</Link>
+              <NavLink
+                exact
+                to="/"
+                activeStyle={{
+                  backgroundColor: "#e45858",
+                  color: "#fffffe",
+                  padding: "3px",
+                  borderRadius: "3px",
+                  border: "2px solid #e45858",
+                  textAlign: "center",
+                }}
+              >
+                Browse
+              </NavLink>
             </LinkDiv>
           </li>
           <li>
             <LinkDiv>
-              <Link to="/about">About</Link>
+              <NavLink
+                exact
+                to="/about"
+                activeStyle={{
+                  backgroundColor: "#e45858",
+                  color: "#fffffe",
+                  padding: "3px",
+                  borderRadius: "3px",
+                  border: "2px solid #e45858",
+                  textAlign: "center",
+                }}
+              >
+                About
+              </NavLink>
             </LinkDiv>
           </li>
           <li>
-            {user ? (
-              <Link to="/pro">
-                <ProDiv>Pro</ProDiv>
-              </Link>
-            ) : (
-              <Link to="/Auth">
-                <ProDiv>Pro</ProDiv>
-              </Link>
-            )}
+            <LinkDiv>
+              {user ? (
+                <NavLink
+                  exact
+                  to="/pro"
+                  activeStyle={{
+                    backgroundColor: "#e45858",
+                    color: "#fffffe",
+                    padding: "3px",
+                    borderRadius: "3px",
+                    border: "2px solid #e45858",
+                    textAlign: "center",
+                  }}
+                >
+                  Pro
+                </NavLink>
+              ) : (
+                <NavLink
+                  exact
+                  to="/Auth"
+                  activeStyle={{
+                    backgroundColor: "#e45858",
+                    color: "#fffffe",
+                    padding: "3px",
+                    borderRadius: "3px",
+                    border: "2px solid #e45858",
+                    textAlign: "center",
+                  }}
+                >
+                  Pro
+                </NavLink>
+              )}
+            </LinkDiv>
           </li>
         </DropDown>
       ) : (
