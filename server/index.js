@@ -7,6 +7,7 @@ const userCtrl = require("./controllers/user");
 const skillCtrl = require("./controllers/skill");
 const dataCtrl = require("./controllers/data");
 const app = express();
+const path = require("path");
 
 app.use(express.json());
 app.use(
@@ -38,3 +39,8 @@ app.put("/skill/change_skill/:skill_id", skillCtrl.change_skill);
 app.delete("/skill/delete_skill/:skill_id", skillCtrl.delete_skill);
 
 app.get("/data/get_data", dataCtrl.get_data);
+
+app.use(express.static(__dirname + "/../build"));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build/index.html"));
+});
