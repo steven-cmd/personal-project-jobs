@@ -27,6 +27,7 @@ const CardTagDiv = styled.div`
 const JobCardDiv = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: 100%;
 `;
 
 const DeleteButton = styled.button`
@@ -72,6 +73,7 @@ const Job = styled.div`
   margin: 0px 60px 60px 60px;
   background-color: #d1d1e9;
   padding: 20px;
+  overflow-wrap: break-word;
 `;
 
 const AddSkillDiv = styled.div`
@@ -83,6 +85,7 @@ const AddSkillDiv = styled.div`
 const Pro = (props) => {
   const { skills } = useSelector((store) => store.skillReducer);
   const { jobs } = useSelector((store) => store.jobReducer);
+  const { user } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const [skillInput, setSkillInput] = useState("");
   const [recommendedJobs, setRecommendedJobs] = useState([]);
@@ -137,8 +140,10 @@ const Pro = (props) => {
   }, [skills, jobs]);
 
   useEffect(() => {
-    handleRecommend();
-  }, [handleRecommend]);
+    if (skills.length > 0 && jobs.length > 0) {
+      handleRecommend();
+    }
+  }, [handleRecommend, skills, jobs]);
 
   const handleAddSkill = () => {
     if (skillInput.length > 64) {

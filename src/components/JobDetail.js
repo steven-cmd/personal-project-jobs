@@ -7,7 +7,7 @@ import { useParams } from "react-router";
 const natural = require("natural");
 const TfIdf = natural.TfIdf;
 const jobTfidf = new TfIdf();
-const size = [411, 411];
+const size = [375, 375];
 const options = {
   fontFamily: "sans-serif",
   fontSizes: [12, 50],
@@ -59,6 +59,11 @@ const MainDiv = styled.div`
   @media screen and (min-width: 800px) {
     padding: 0px 40px 0px 40px;
   }
+`;
+
+const Heading = styled.div`
+  padding: 20px;
+  text-align: center;
 `;
 
 const JobDetail = (props) => {
@@ -120,11 +125,13 @@ const JobDetail = (props) => {
 
   return (
     <MainDiv>
-      <h2>{jobs[jobIndex]?.title}</h2>
-      <p>{jobs[jobIndex]?.company}</p>
-      <p>
-        {jobs[jobIndex]?.location}, {jobs[jobIndex]?.country}
-      </p>
+      <Heading>
+        <h2>{jobs[jobIndex]?.title}</h2>
+        <p>{jobs[jobIndex]?.company}</p>
+        <p>
+          {jobs[jobIndex]?.location}, {jobs[jobIndex]?.country}
+        </p>
+      </Heading>
 
       <a target={"_blank"} rel="noreferrer" href={jobs[jobIndex]?.url}>
         <Apply>Apply</Apply>

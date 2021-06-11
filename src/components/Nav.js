@@ -1,7 +1,7 @@
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/userReducer";
-import { useState } from "react";
+import { logout, updateUser } from "../redux/userReducer";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -111,6 +111,21 @@ const Nav = (props) => {
   const history = useHistory();
 
   const { user } = useSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    axios
+      .get("/user/getuser")
+      .then((res) => {
+        console.log(res.data);
+        dispatch(updateUser(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.status === 511) {
+          props.history.push("/auth");
+        }
+      });
+  }, []);
 
   const handleLogout = () => {
     axios
